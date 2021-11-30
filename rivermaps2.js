@@ -268,76 +268,65 @@ var allRivers = [newRiver];
 // Loads water data
 LoadCOFile();  // originally on line 1008
 
-////// XML data from the file //////
-// Change this depending on the name of your PHP or XML file
-downloadUrl('http://rivermaps.co//mapmarkers2.xml', function(data) {
-var newRiver = [];
-   var XMLindex = 0;
-   var xml = data.responseXML;
-   var sections = xml.documentElement.getElementsByTagName('section');
-
-   Array.prototype.forEach.call(sections, function(sectionElem) {
-      var id = sectionElem.getAttribute('id');
-      var name = sectionElem.getAttribute('name');
-      var infoContentImp = sectionElem.getAttribute('infoContent');
-      var rcolor = sectionElem.getAttribute('rcolor');
-      var clabel = sectionElem.getAttribute('clabel');
-      var point = {lat: parseFloat(sectionElem.getAttribute('lat')), lng: parseFloat(sectionElem.getAttribute('lng'))};
-      var rclass = sectionElem.getAttribute('rclass');
-      var lowerLimit = parseFloat(sectionElem.getAttribute('lowLmt'));
-      var upperLimit = parseFloat(sectionElem.getAttribute('upLmt'));
-      var sectType = sectionElem.getAttribute('type');
-      // manually loops through the links and link names for the section - I have to figure out a better way
-      var links = [];
-      var linkNames = [];
-      var i = 0;
-      var loop = true;
-      // loop to add links for visual sections
-      while (loop) {
-      	var ref_links = 'links' + i;
-      	var ref_link_names = 'linkNames' + i;
-   
-      if (sectionElem.getAttribute(ref_links) != null) {
-      	links[i] = sectionElem.getAttribute(ref_links);
-      	linkNames[i] = sectionElem.getAttribute(ref_link_names);
-      	i++;
-      	} else {
-      	loop = false; 
-
-      	}; // if statement
-      	
-      }; // while loop
-
-      if (sectType == "measured") {
-      	newRiver[XMLindex] = new RiverSection(point, name, clabel, rclass, rcolor, lowerLimit, upperLimit);
-      	newRiver[XMLindex].USGSsite = [sectionElem.getAttribute('USGSsite')];
-      	
-      } else {
-      	newRiver[XMLindex] = new visualRiverSection(point, name, clabel, rclass, rcolor, lowerLimit, upperLimit);
-      	newRiver[XMLindex].timing = [new Date(sectionElem.getAttribute('timing_start') + curYear), new Date(sectionElem.getAttribute('timing_end')  + curYear)];
-      	//console.log(name)
-      	}; // adding the right kind of new section
-      	newRiver[XMLindex].infoContent += infoContentImp;
-      	for (var j = 0;  j < links.length ; j++) {
-      		newRiver[XMLindex].infoContent += " <p><a href='" + links[j] + "' target='_blank'>"+ linkNames[j] + "</a></p>"
-      	}; // for loop
-      		
-      XMLindex++;
-      }); // loop for the sections
-allRivers.push(newRiver);
-
-// onload command to make sure this loads after the google maps API is ready
-window.onload = function () {
- // createMarker Loop for all the rivers
-for (var riverIndex = 0; riverIndex < allRivers.length; riverIndex++) {
-	createMarker(allRivers[riverIndex]);
-	}; // for loop to create all of the river markers
-
-markerCluster = new MarkerClusterer(map, marker, clusterOptions);
-markerCluster.setMaxZoom(10);
-
-};
-});
+//////// XML data from the file //////
+//// Change this depending on the name of your PHP or XML file
+//downloadUrl('http://rivermaps.co//mapmarkers2.xml', function(data) {
+//var newRiver = [];
+//   var XMLindex = 0;
+//   var xml = data.responseXML;
+//   var sections = xml.documentElement.getElementsByTagName('section');
+//
+//   Array.prototype.forEach.call(sections, function(sectionElem) {
+//      var id = sectionElem.getAttribute('id');
+//      var name = sectionElem.getAttribute('name');
+//      var infoContentImp = sectionElem.getAttribute('infoContent');
+//      var rcolor = sectionElem.getAttribute('rcolor');
+//      var clabel = sectionElem.getAttribute('clabel');
+//      var point = {lat: parseFloat(sectionElem.getAttribute('lat')), lng: parseFloat(sectionElem.getAttribute('lng'))};
+//      var rclass = sectionElem.getAttribute('rclass');
+//      var lowerLimit = parseFloat(sectionElem.getAttribute('lowLmt'));
+//      var upperLimit = parseFloat(sectionElem.getAttribute('upLmt'));
+//      var sectType = sectionElem.getAttribute('type');
+//      // manually loops through the links and link names for the section - I have to figure out a better way
+//      var links = [];
+//      var linkNames = [];
+//      var i = 0;
+//      var loop = true;
+//      // loop to add links for visual sections
+//      while (loop) {
+//      	var ref_links = 'links' + i;
+//      	var ref_link_names = 'linkNames' + i;
+//   
+//      if (sectionElem.getAttribute(ref_links) != null) {
+//      	links[i] = sectionElem.getAttribute(ref_links);
+//      	linkNames[i] = sectionElem.getAttribute(ref_link_names);
+//      	i++;
+//      	} else {
+//      	loop = false; 
+//
+//      	}; // if statement
+//      	
+//      }; // while loop
+//
+//      if (sectType == "measured") {
+//      	newRiver[XMLindex] = new RiverSection(point, name, clabel, rclass, rcolor, lowerLimit, upperLimit);
+//      	newRiver[XMLindex].USGSsite = [sectionElem.getAttribute('USGSsite')];
+//      	
+//      } else {
+//      	newRiver[XMLindex] = new visualRiverSection(point, name, clabel, rclass, rcolor, lowerLimit, upperLimit);
+//      	newRiver[XMLindex].timing = [new Date(sectionElem.getAttribute('timing_start') + curYear), new Date(sectionElem.getAttribute('timing_end')  + curYear)];
+//      	//console.log(name)
+//      	}; // adding the right kind of new section
+//      	newRiver[XMLindex].infoContent += infoContentImp;
+//      	for (var j = 0;  j < links.length ; j++) {
+//      		newRiver[XMLindex].infoContent += " <p><a href='" + links[j] + "' target='_blank'>"+ linkNames[j] + "</a></p>"
+//      	}; // for loop
+//      		
+//      XMLindex++;
+//      }); // loop for the sections
+//allRivers.push(newRiver);
+//
+//});
 
 
 
@@ -2806,7 +2795,17 @@ newRiver[2].infoContent += "<p><a href='https://www.americanwhitewater.org/conte
 
 allRivers.push (newRiver); 
 
+// onload command to make sure this loads after the google maps API is ready
+window.onload = function () {
+ // createMarker Loop for all the rivers
+for (var riverIndex = 0; riverIndex < allRivers.length; riverIndex++) {
+	createMarker(allRivers[riverIndex]);
+	}; // for loop to create all of the river markers
 
+markerCluster = new MarkerClusterer(map, marker, clusterOptions);
+markerCluster.setMaxZoom(10);
+
+};
 
 
 
