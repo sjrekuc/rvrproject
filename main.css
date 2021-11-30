@@ -1,0 +1,64 @@
+#map {
+  height: 95%;
+  width: 100%;
+ }
+ 
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+.bottom-smallscreen {
+	display: none
+	}
+	
+#bottom-full {
+	width: 100%
+	display: inline
+}
+
+
+/* rul for smartphones (small screens) */
+@media all and (max-width: 1200px) {
+#map {
+	height: 85%;
+	width: 100%;
+	}
+.bottom-smallscreen {
+	display: block;
+	margin: auto;
+	text-align: center;
+	}
+#bottom-full {
+	display: none
+	}
+} /* CSS rule for smartphones */
+
+
+#floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 18%;
+        z-index: 5;
+        background-color: Transparent;
+        border: none;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        outline: none;
+      };
+      
+.bottom-panel {
+	position: absolute;
+	top: 500px;
+	left: 30px;
+	z-index: 5;
+        background-color: Transparent;
+        border: none;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        outline: none;
+};
+ 
